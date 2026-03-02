@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 3.2 — The Revenge Spiral | LW Trades</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --stroke:rgba(255,255,255,.10);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --accent-glow:rgba(142,92,255,.3);
+  --green:#42d17a;
+  --danger:#ff5c5c;
+  --warning:#ffa500;
+  --shadow: 0 24px 90px rgba(0,0,0,.55);
+  --radius:22px;
+  --maxw: 1200px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(1200px 800px at 15% 20%, rgba(255,92,92,.24), transparent 55%),
+    radial-gradient(900px 700px at 85% 25%, rgba(142,92,255,.14), transparent 55%),
+    radial-gradient(800px 650px at 45% 90%, rgba(180,123,255,.16), transparent 60%),
+    linear-gradient(180deg, var(--bg2), var(--bg1) 55%, #07040a);
+  padding: 40px 20px;
+}
+
+.container{
+  width:min(var(--maxw),100%);
+  margin:0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.header{
+  background: rgba(0,0,0,.3);
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lesson-badge{
+  font-size: 14px;
+  color: var(--danger);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.content{
+  padding: 50px 40px;
+}
+
+h1{
+  margin:0 0 12px 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, var(--danger) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+.subtitle{
+  color: var(--muted);
+  font-size: 1.3rem;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.spiral-container{
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto 50px;
+  padding: 40px;
+}
+
+.spiral-svg{
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(255,92,92,.3));
+}
+
+.spiral-node{
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.spiral-node:hover{
+  filter: brightness(1.3);
+  transform-origin: center;
+}
+
+.node-circle{
+  fill: var(--bg1);
+  stroke-width: 3;
+  transition: all 0.3s ease;
+}
+
+.node-circle.active{
+  stroke-width: 5;
+  filter: drop-shadow(0 0 20px currentColor);
+}
+
+.node-text{
+  fill: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.node-number{
+  fill: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.spiral-path{
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawPath 3s ease forwards;
+}
+
+@keyframes drawPath{
+  to{ stroke-dashoffset: 0; }
+}
+
+.detail-panel{
+  background: linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 40px;
+  min-height: 200px;
+  transition: all 0.3s ease;
+}
+
+.detail-panel h3{
+  color: var(--danger);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-panel p{
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.detail-panel .warning-sign{
+  background: rgba(255,92,92,.1);
+  border-left: 4px solid var(--danger);
+  padding: 15px 20px;
+  border-radius: 0 8px 8px 0;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.phases-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.phase-card{
+  background: linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.phase-card:hover, .phase-card.active{
+  border-left-color: var(--danger);
+  background: rgba(255,92,92,.05);
+  transform: translateX(5px);
+}
+
+.phase-card h4{
+  color: var(--danger);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phase-card p{
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.breakout-box{
+  background: linear-gradient(90deg, rgba(66,209,122,.1), rgba(66,209,122,.05));
+  border: 1px solid rgba(66,209,122,.3);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
+
+.breakout-box h3{
+  color: var(--green);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.breakout-box p{
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.breakout-btn{
+  background: var(--green);
+  color: #000;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.breakout-btn:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(66,209,122,.3);
+}
+
+.footer{
+  background: rgba(0,0,0,.3);
+  padding: 20px 40px;
+  border-top: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-links{
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a{
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.nav-links a:hover{
+  background: rgba(142,92,255,.2);
+}
+
+@media (max-width: 768px){
+  .phases-grid{ grid-template-columns: 1fr; }
+  .spiral-container{ padding: 20px; }
+}
+  </style>
+<base target="_blank">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="lesson-badge">Lesson 3.2 — The Blow-Up</div>
+      <div style="color: var(--muted); font-size: 0.9rem;">Module 3: The Pain</div>
+    </div>
+
+    <div class="content">
+      <h1>THE REVENGE SPIRAL</h1>
+      <p class="subtitle">How one emotional trade triggers a cascade of catastrophic decisions</p>
+
+      <div class="spiral-container">
+        <svg class="spiral-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+          <!-- Spiral Path -->
+          <path class="spiral-path" d="M 400 80 
+                   Q 550 80, 600 150 
+                   Q 650 220, 580 280 
+                   Q 510 340, 420 300 
+                   Q 330 260, 350 180 
+                   Q 370 100, 480 120 
+                   Q 590 140, 620 220 
+                   Q 650 300, 550 350 
+                   Q 450 400, 380 340 
+                   Q 310 280, 340 200" 
+                stroke="#ff5c5c" fill="none" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- Node 1: Initial Loss -->
+          <g class="spiral-node" onclick="showPhase(1)" style="cursor: pointer;">
+            <circle class="node-circle" cx="400" cy="80" r="35" fill="#120818" stroke="#ff5c5c" stroke-width="3"/>
+            <text class="node-number" x="400" y="75" fill="white" font-size="20" font-weight="800">1</text>
+            <text class="node-text" x="400" y="90" fill="white" font-size="12">LOSS</text>
+          </g>
+
+          <!-- Node 2: Frustration -->
+          <g class="spiral-node" onclick="showPhase(2)">
+            <circle class="node-circle" cx="600" cy="150" r="35" fill="#120818" stroke="#ff6b6b" stroke-width="3"/>
+            <text class="node-number" x="600" y="145" fill="white" font-size="20" font-weight="800">2</text>
+            <text class="node-text" x="600" y="160" fill="white" font-size="12">ANGER</text>
+          </g>
+
+          <!-- Node 3: Urgency -->
+          <g class="spiral-node" onclick="showPhase(3)">
+            <circle class="node-circle" cx="580" cy="280" r="35" fill="#120818" stroke="#ff8585" stroke-width="3"/>
+            <text class="node-number" x="580" y="275" fill="white" font-size="20" font-weight="800">3</text>
+            <text class="node-text" x="580" y="290" fill="white" font-size="12">FOMO</text>
+          </g>
+
+          <!-- Node 4: Oversized Trade -->
+          <g class="spiral-node" onclick="showPhase(4)">
+            <circle class="node-circle" cx="420" cy="300" r="40" fill="#120818" stroke="#ffa500" stroke-width="3"/>
+            <text class="node-number" x="420" y="295" fill="white" font-size="20" font-weight="800">4</text>
+            <text class="node-text" x="420" y="310" fill="white" font-size="11">OVERSIZE</text>
+          </g>
+
+          <!-- Node 5: Bigger Loss -->
+          <g class="spiral-node" onclick="showPhase(5)">
+            <circle class="node-circle" cx="350" cy="180" r="35" fill="#120818" stroke="#ff4444" stroke-width="3"/>
+            <text class="node-number" x="350" y="175" fill="white" font-size="20" font-weight="800">5</text>
+            <text class="node-text" x="350" y="190" fill="white" font-size="12">PAIN</text>
+          </g>
+
+          <!-- Node 6: Desperation -->
+          <g class="spiral-node" onclick="showPhase(6)">
+            <circle class="node-circle" cx="480" cy="120" r="35" fill="#120818" stroke="#ff3333" stroke-width="3"/>
+            <text class="node-number" x="480" y="115" fill="white" font-size="20" font-weight="800">6</text>
+            <text class="node-text" x="480" y="130" fill="white" font-size="12">CHASE</text>
+          </g>
+
+          <!-- Node 7: Account Blown -->
+          <g class="spiral-node" onclick="showPhase(7)">
+            <circle class="node-circle" cx="620" cy="220" r="45" fill="#120818" stroke="#ff0000" stroke-width="4"/>
+            <text class="node-number" x="620" y="215" fill="#ff5c5c" font-size="24" font-weight="800">7</text>
+            <text class="node-text" x="620" y="235" fill="#ff5c5c" font-size="14" font-weight="700">BLOWN</text>
+          </g>
+
+          <!-- Labels -->
+          <text x="400" y="40" fill="#888" font-size="14" text-anchor="middle">The Trigger</text>
+          <text x="620" y="380" fill="#ff5c5c" font-size="16" text-anchor="middle" font-weight="700">Account Destroyed</text>
+
+          <!-- Arrow showing cycle -->
+          <path d="M 340 200 Q 300 150, 380 100" stroke="#ff5c5c" stroke-width="2" fill="none" stroke-dasharray="5,5" opacity="0.5"/>
+          <polygon points="380,100 375,110 385,110" fill="#ff5c5c" opacity="0.5"/>
+        </svg>
+      </div>
+
+      <div class="detail-panel" id="detailPanel">
+        <h3>🔍 Click any phase above to see the psychology breakdown</h3>
+        <p>The revenge spiral is predictable. Every blown account follows this same emotional pattern. The key is recognizing which phase you're in before it's too late.</p>
+        <div class="warning-sign">
+          <strong>Critical Insight:</strong> The spiral accelerates. Each loop gets faster and more destructive. By phase 4, most traders have already lost control.
+        </div>
+      </div>
+
+      <div class="phases-grid">
+        <div class="phase-card" onclick="showPhase(1)" data-phase="1">
+          <h4>1️⃣ The Initial Loss</h4>
+          <p>A normal losing trade that should be accepted as part of the game. Instead, it triggers an emotional response.</p>
+        </div>
+        <div class="phase-card" onclick="showPhase(2)" data-phase="2">
+          <h4>2️⃣ Frustration Builds</h4>
+          <p>"I can't believe that stopped me out!" The market becomes personal. You feel wronged by price action.</p>
+        </div>
+        <div class="phase-card" onclick="showPhase(3)" data-phase="3">
+          <h4>3️⃣ Urgency & FOMO</h4>
+          <p>"I need to get this back NOW." The fear of missing the recovery move overrides patience.</p>
+        </div>
+        <div class="phase-card" onclick="showPhase(4)" data-phase="4">
+          <h4>4️⃣ The Oversized Trade</h4>
+          <p>Doubling position size to "make it back faster." Risk management is abandoned completely.</p>
+        </div>
+        <div class="phase-card" onclick="showPhase(5)" data-phase="5">
+          <h4>5️⃣ Bigger Loss</h4>
+          <p>The oversized trade fails. Now you're down significantly more than the original loss.</p>
+        </div>
+        <div class="phase-card" onclick="showPhase(6)" data-phase="6">
+          <h4>6️⃣ Desperation</h4>
+          <p>"I have to recover this." Complete loss of perspective. Trading becomes gambling.</p>
+        </div>
+      </div>
+
+      <div class="breakout-box">
+        <h3>🛑 BREAK THE CYCLE</h3>
+        <p>The only way out is to recognize the spiral early and execute your emergency protocol. Module 4 teaches you exactly how.</p>
+        <button class="breakout-btn" onclick="window.location.href='4.0.html'">Learn The Recovery Protocol →</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>LW Trades</div>
+      <div class="nav-links">
+        <a href="3.1.html">← The 94% Problem</a>
+        <a href="3.3.html">Next: Overtrading Diagnostics →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const phaseData = {
+      1: {
+        title: "1️⃣ The Initial Loss (The Trigger)",
+        content: "This is a normal, expected losing trade. In a 50% win-rate system, this happens half the time. The problem isn't the loss—it's your reaction to it.",
+        warning: "Warning Sign: You immediately feel the need to 'explain' the loss or blame the market. Normal losses feel like personal attacks.",
+        color: "#ff5c5c"
+      },
+      2: {
+        title: "2️⃣ Frustration & Anger (The Fuel)",
+        content: "Your amygdala (fight-or-flight center) activates. Blood pressure rises. The market becomes an opponent you must defeat. Logic is replaced by emotion.",
+        warning: "Warning Sign: You're checking the chart every 30 seconds. You're muttering at the screen. Your jaw is clenched.",
+        color: "#ff6b6b"
+      },
+      3: {
+        title: "3️⃣ Urgency & FOMO (The Trap)",
+        content: "The fear of missing the recovery move becomes overwhelming. You feel like you're 'wasting time' not being in a trade. Patience feels like inaction.",
+        warning: "Warning Sign: You're scanning for any setup, even low-quality ones. You're rationalizing: 'This looks good enough.'",
+        color: "#ff8585"
+      },
+      4: {
+        title: "4️⃣ The Oversized Trade (The Point of No Return)",
+        content: "You double or triple your normal size to 'make it back faster.' This is where accounts die. One bad trade at 3x size does more damage than three normal losses.",
+        warning: "CRITICAL: If you've increased size to recover losses, STOP IMMEDIATELY. You're already in the spiral.",
+        color: "#ffa500"
+      },
+      5: {
+        title: "5️⃣ Bigger Loss (The Acceleration)",
+        content: "The oversized trade fails. Now you're not just down the original amount—you're down 2-3x more. The psychological pain is magnified.",
+        warning: "Warning Sign: You're calculating how much you need to make back. You're thinking about your account balance, not the setup.",
+        color: "#ff4444"
+      },
+      6: {
+        title: "6️⃣ Desperation (The Final Phase)",
+        content: "Logic is completely gone. You're taking trades with no edge, no setup, just raw hope. This is gambling, not trading. The account is already doomed.",
+        warning: "RED ALERT: If you're thinking 'I have to make this back today,' close the platform. You're done for the day.",
+        color: "#ff3333"
+      },
+      7: {
+        title: "7️⃣ Account Blown (The End)",
+        content: "The daily loss limit is hit. Or the max drawdown is breached. The evaluation is failed. The spiral is complete. Another $50-100K account is gone.",
+        warning: "Reality: This exact pattern plays out thousands of times per day across every prop firm. Don't be one of them.",
+        color: "#ff0000"
+      }
+    };
+
+    function showPhase(phaseNum) {
+      const panel = document.getElementById('detailPanel');
+      const data = phaseData[phaseNum];
+
+      // Update panel content
+      panel.innerHTML = `
+        <h3 style="color: ${data.color}">${data.title}</h3>
+        <p>${data.content}</p>
+        <div class="warning-sign" style="border-left-color: ${data.color}">
+          <strong>${phaseNum === 4 || phaseNum === 6 ? 'CRITICAL WARNING:' : 'Warning Sign:'}</strong> ${data.warning}
+        </div>
+      `;
+
+      // Highlight active card
+      document.querySelectorAll('.phase-card').forEach(card => {
+        card.classList.remove('active');
+        if (parseInt(card.dataset.phase) === phaseNum) {
+          card.classList.add('active');
+        }
+      });
+
+      // Highlight SVG node
+      document.querySelectorAll('.node-circle').forEach((circle, idx) => {
+        circle.classList.remove('active');
+        if (idx + 1 === phaseNum) {
+          circle.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

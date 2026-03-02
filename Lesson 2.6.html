@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 2.6 — Pre-Trade Checklist | LW Trades</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --stroke:rgba(255,255,255,.10);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --accent-glow:rgba(142,92,255,.3);
+  --green:#42d17a;
+  --danger:#ff5c5c;
+  --warning:#ffa500;
+  --shadow: 0 24px 90px rgba(0,0,0,.55);
+  --radius:22px;
+  --maxw: 1100px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(1200px 800px at 15% 20%, rgba(142,92,255,.24), transparent 55%),
+    radial-gradient(900px 700px at 85% 25%, rgba(66,209,122,.14), transparent 55%),
+    radial-gradient(800px 650px at 45% 90%, rgba(180,123,255,.16), transparent 60%),
+    linear-gradient(180deg, var(--bg2), var(--bg1) 55%, #07040a);
+  padding: 40px 20px;
+}
+
+.container{
+  width:min(var(--maxw),100%);
+  margin:0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.header{
+  background: rgba(0,0,0,.3);
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lesson-badge{
+  font-size: 14px;
+  color: var(--accent2);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.content{
+  padding: 50px 40px;
+}
+
+h1{
+  margin:0 0 12px 0;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle{
+  color: var(--muted);
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.bridge-banner{
+  background: linear-gradient(90deg, rgba(255,92,92,.15), rgba(255,92,92,.05));
+  border: 1px solid rgba(255,92,92,.3);
+  border-radius: 16px;
+  padding: 25px 30px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.bridge-icon{
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.bridge-content h3{
+  color: var(--danger);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.bridge-content p{
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.checklist-container{
+  background: linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 35px;
+  margin-bottom: 40px;
+}
+
+.checklist-title{
+  text-align: center;
+  color: var(--accent2);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.checklist-item{
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px;
+  margin-bottom: 15px;
+  background: rgba(0,0,0,.3);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.checklist-item:hover{
+  border-color: var(--accent);
+  transform: translateX(5px);
+}
+
+.checklist-item.checked{
+  border-color: var(--green);
+  background: rgba(66,209,122,.1);
+}
+
+.checklist-item.danger{
+  border-color: var(--danger);
+  background: rgba(255,92,92,.1);
+}
+
+.checkbox{
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--stroke);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.checklist-item.checked .checkbox{
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.checklist-item.danger .checkbox{
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.checklist-content h4{
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checklist-content p{
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.checklist-content .tag{
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.tag.required{
+  background: rgba(142,92,255,.2);
+  color: var(--accent2);
+}
+
+.tag.warning{
+  background: rgba(255,165,0,.2);
+  color: var(--warning);
+}
+
+.tag.critical{
+  background: rgba(255,92,92,.2);
+  color: var(--danger);
+}
+
+.progress-section{
+  background: rgba(0,0,0,.3);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 40px;
+}
+
+.progress-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.progress-label{
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.progress-value{
+  color: var(--accent2);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.progress-bar{
+  height: 10px;
+  background: rgba(255,255,255,.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill{
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+.progress-fill.danger{
+  background: linear-gradient(90deg, var(--danger), #ff8888);
+}
+
+.status-message{
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: none;
+}
+
+.status-message.ready{
+  display: block;
+  background: rgba(66,209,122,.1);
+  border: 1px solid var(--green);
+  color: var(--green);
+}
+
+.status-message.warning{
+  display: block;
+  background: rgba(255,165,0,.1);
+  border: 1px solid var(--warning);
+  color: var(--warning);
+}
+
+.status-message.danger{
+  display: block;
+  background: rgba(255,92,92,.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.module-preview{
+  background: linear-gradient(145deg, rgba(255,92,92,.1), rgba(255,92,92,.05));
+  border: 1px solid rgba(255,92,92,.3);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
+
+.module-preview h3{
+  color: var(--danger);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.module-preview p{
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.preview-btn{
+  background: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preview-btn:hover{
+  background: var(--danger);
+  color: white;
+}
+
+.footer{
+  background: rgba(0,0,0,.3);
+  padding: 20px 40px;
+  border-top: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-links{
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a{
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.nav-links a:hover{
+  background: rgba(142,92,255,.2);
+}
+
+@media (max-width: 768px){
+  .checklist-item{ flex-direction: column; gap: 15px; }
+  .bridge-banner{ flex-direction: column; text-align: center; }
+}
+  </style>
+<base target="_blank">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="lesson-badge">Lesson 2.6</div>
+      <div style="color: var(--muted); font-size: 0.9rem;">Risk Identity</div>
+    </div>
+
+    <div class="content">
+      <h1>The Pre-Trade Checklist</h1>
+      <p class="subtitle">Your final defense before putting capital at risk</p>
+
+      <div class="bridge-banner">
+        <div class="bridge-icon">🚨</div>
+        <div class="bridge-content">
+          <h3>Bridge to Module 3: The Blow-Up</h3>
+          <p>This checklist is your last line of defense. But what happens when emotions override the checklist? In Module 3, we dissect exactly how traders spiral into catastrophic losses—and why 94% fail despite "knowing better."</p>
+        </div>
+      </div>
+
+      <div class="checklist-container">
+        <div class="checklist-title">✅ Pre-Trade Safety Protocol</div>
+
+        <div class="checklist-item" onclick="toggleCheck(this, 'risk')" data-type="required">
+          <div class="checkbox">✓</div>
+          <div class="checklist-content">
+            <h4>Risk Calculated <span class="tag required">Required</span></h4>
+            <p>I have calculated my position size based on my 2% max risk rule. Stop loss is defined before entry. I know exactly how much I can lose on this trade.</p>
+          </div>
+        </div>
+
+        <div class="checklist-item" onclick="toggleCheck(this, 'plan')" data-type="required">
+          <div class="checkbox">✓</div>
+          <div class="checklist-content">
+            <h4>Plan Defined <span class="tag required">Required</span></h4>
+            <p>I have a clear entry, stop, and target. This trade fits my strategy criteria. I'm not improvising or "seeing what happens."</p>
+          </div>
+        </div>
+
+        <div class="checklist-item" onclick="toggleCheck(this, 'mindset')" data-type="warning">
+          <div class="checkbox">✓</div>
+          <div class="checklist-content">
+            <h4>Mindset Check <span class="tag warning">Critical</span></h4>
+            <p>I am not trading to recover losses. I am not angry, frustrated, or FOMO-driven. I can walk away right now if this trade disappears.</p>
+          </div>
+        </div>
+
+        <div class="checklist-item" onclick="toggleCheck(this, 'market')" data-type="required">
+          <div class="checkbox">✓</div>
+          <div class="checklist-content">
+            <h4>Market Conditions <span class="tag required">Required</span></h4>
+            <p>I have checked the economic calendar. No high-impact news in the next 30 minutes. Spread is normal. Volume is adequate for my strategy.</p>
+          </div>
+        </div>
+
+        <div class="checklist-item danger-item" onclick="toggleCheck(this, 'revenge')" data-type="critical">
+          <div class="checkbox">✗</div>
+          <div class="checklist-content">
+            <h4>Revenge Trading Check <span class="tag critical">STOP TRADING</span></h4>
+            <p>I have NOT just taken a loss. I am NOT sizing up to make it back. I am NOT chasing price. If any are true, CLOSE THE PLATFORM NOW.</p>
+          </div>
+        </div>
+
+        <div class="checklist-item" onclick="toggleCheck(this, 'cushion')" data-type="required">
+          <div class="checkbox">✓</div>
+          <div class="checklist-content">
+            <h4>Cushion Status <span class="tag required">Required</span></h4>
+            <p>I know my current cushion ($2,000 max loss remaining). This trade will not breach my daily loss limit even if it hits stop immediately.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Pre-Trade Readiness Score</span>
+          <span class="progress-value" id="scoreText">0/6 Checks Complete</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <div class="status-message" id="statusMsg">
+          Complete all checks to proceed
+        </div>
+      </div>
+
+      <div class="module-preview">
+        <h3>⚠️ But What If You Can't Check These Boxes?</h3>
+        <p>What happens when you're mid-spiral and can't even see the checklist anymore? Module 3 exposes the psychology of blow-ups—and Module 4 gives you the emergency protocol to stop the bleeding.</p>
+        <button class="preview-btn" onclick="window.location.href='3.0.html'">Preview Module 3: The Blow-Up</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>LW Trades</div>
+      <div class="nav-links">
+        <a href="2.5.html">← OCO Advantage</a>
+        <a href="2.7.html">Module 2 Recap →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let checkedItems = new Set();
+    const totalItems = 6;
+
+    function toggleCheck(element, id) {
+      const isDanger = element.classList.contains('danger-item');
+
+      if (checkedItems.has(id)) {
+        checkedItems.delete(id);
+        element.classList.remove('checked');
+        if (isDanger) element.classList.remove('danger');
+      } else {
+        checkedItems.add(id);
+        if (isDanger) {
+          element.classList.add('danger');
+        } else {
+          element.classList.add('checked');
+        }
+      }
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const score = checkedItems.size;
+      const percentage = (score / totalItems) * 100;
+      const progressBar = document.getElementById('progressBar');
+      const scoreText = document.getElementById('scoreText');
+      const statusMsg = document.getElementById('statusMsg');
+
+      progressBar.style.width = percentage + '%';
+      scoreText.textContent = `${score}/${totalItems} Checks Complete`;
+
+      // Check if revenge trading box is checked (danger)
+      const revengeChecked = checkedItems.has('revenge');
+
+      if (revengeChecked) {
+        progressBar.classList.add('danger');
+        statusMsg.className = 'status-message danger';
+        statusMsg.textContent = '🛑 STOP: You are in revenge trading mode. Close all positions and step away from the platform immediately.';
+      } else if (score === totalItems) {
+        progressBar.classList.remove('danger');
+        statusMsg.className = 'status-message ready';
+        statusMsg.textContent = '✅ All systems green. You are cleared to trade with discipline.';
+      } else if (score >= 4) {
+        progressBar.classList.remove('danger');
+        statusMsg.className = 'status-message warning';
+        statusMsg.textContent = '⚠️ Warning: Complete all required checks before trading. Missing critical safety protocols.';
+      } else {
+        progressBar.classList.remove('danger');
+        statusMsg.className = 'status-message';
+        statusMsg.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

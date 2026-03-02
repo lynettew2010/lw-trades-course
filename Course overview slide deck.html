@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Course Overview | Funded Trader Survival Blueprint</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --danger:#ff5c5c;
+  --green:#42d17a;
+  --text:#ffffff;
+  --muted:#888888;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--bg1);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+.slide{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  scroll-snap-align:start;
+  position:relative;
+  padding:60px;
+}
+
+/* Title Slide */
+.slide-title{
+  background:
+    radial-gradient(ellipse at center,rgba(142,92,255,.3)0%,transparent70%),
+    linear-gradient(180deg,var(--bg2),var(--bg1));
+  text-align:center;
+}
+
+.course-title-big{
+  font-size:clamp(48px,8vw,96px);
+  font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:20px;
+}
+
+.course-subtitle{
+  font-size:clamp(20px,3vw,28px);
+  color:var(--muted);
+  max-width:700px;
+  line-height:1.5;
+}
+
+/* Module Slides */
+.slide-module{
+  background:var(--bg1);
+  border-left:8px solid var(--accent);
+  padding-left:80px;
+}
+
+.slide-module.danger{
+  border-left-color:var(--danger);
+  background:linear-gradient(90deg,rgba(255,92,92,.05),var(--bg1));
+}
+
+.module-header{
+  display:flex;
+  align-items:center;
+  gap:30px;
+  margin-bottom:40px;
+}
+
+.module-badge{
+  background:var(--accent);
+  color:white;
+  padding:15px 30px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.slide-module.danger .module-badge{
+  background:var(--danger);
+}
+
+.module-title{
+  font-size:clamp(36px,5vw,56px);
+  font-weight:800;
+  color:var(--text);
+}
+
+.slide-module.danger .module-title{
+  color:var(--danger);
+}
+
+.module-content{
+  max-width:800px;
+  width:100%;
+}
+
+.module-desc{
+  font-size:clamp(20px,2.5vw,28px);
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:40px;
+}
+
+.lessons-list{
+  list-style:none;
+}
+
+.lessons-list li{
+  padding:15px 0;
+  padding-left:40px;
+  position:relative;
+  font-size:clamp(18px,2vw,24px);
+  color:var(--text);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.lessons-list li::before{
+  content: "→";
+  position:absolute;
+  left:0;
+  color:var(--accent);
+  font-weight:700;
+}
+
+.slide-module.danger .lessons-list li::before{
+  color:var(--danger);
+}
+
+/* Visual Demo Slides */
+.slide-demo{
+  background:var(--bg1);
+  flex-direction:row;
+  gap:60px;
+}
+
+.demo-text{
+  flex:1;
+  max-width:500px;
+}
+
+.demo-visual{
+  flex:1;
+  background:rgba(255,255,255,.05);
+  border:2px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:40px;
+  min-height:400px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.demo-label{
+  font-size:14px;
+  color:var(--accent2);
+  letter-spacing:2px;
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+
+/* Mock Calculator */
+.calc-mock{
+  width:100%;
+  max-width:300px;
+}
+
+.calc-row{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:rgba(0,0,0,.3);
+  margin-bottom:10px;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.calc-label{
+  color:var(--muted);
+}
+
+.calc-value{
+  color:var(--green);
+  font-weight:700;
+}
+
+.calc-result{
+  background:rgba(66,209,122,.1);
+  border:2px solid var(--green);
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  margin-top:20px;
+}
+
+.calc-result-label{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.calc-result-value{
+  font-size:32px;
+  font-weight:800;
+  color:var(--green);
+}
+
+/* Mock Checklist */
+.checklist-mock{
+  width:100%;
+  max-width:350px;
+}
+
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:15px;
+  background:rgba(0,0,0,.3);
+  margin-bottom:10px;
+  border-radius:8px;
+  font-size:16px;
+}
+
+.check-box{
+  width:24px;
+  height:24px;
+  border:2px solid var(--green);
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--green);
+  font-weight:700;
+}
+
+.check-item.danger .check-box{
+  border-color:var(--danger);
+  color:var(--danger);
+}
+
+.check-item.danger{
+  background:rgba(255,92,92,.1);
+}
+
+/* Mock Spiral */
+.spiral-mock{
+  width:300px;
+  height:300px;
+  position:relative;
+}
+
+.spiral-node{
+  position:absolute;
+  width:50px;
+  height:50px;
+  background:var(--bg1);
+  border:3px solid var(--danger);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  color:var(--danger);
+}
+
+.spiral-node.active{
+  background:var(--danger);
+  color:white;
+  box-shadow:0 0 30px rgba(255,92,92,.5);
+}
+
+/* Progress Slide */
+.slide-progress{
+  background:var(--bg1);
+  text-align:center;
+}
+
+.progress-title{
+  font-size:clamp(32px,5vw,48px);
+  font-weight:800;
+  margin-bottom:60px;
+}
+
+.progress-flow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  max-width:1000px;
+}
+
+.flow-box{
+  background:rgba(255,255,255,.05);
+  border:2px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  padding:30px 40px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.flow-box.active{
+  border-color:var(--accent);
+  background:rgba(142,92,255,.1);
+}
+
+.flow-box.danger{
+  border-color:var(--danger);
+  background:rgba(255,92,92,.1);
+  color:var(--danger);
+}
+
+.flow-box.success{
+  border-color:var(--green);
+  background:rgba(66,209,122,.1);
+  color:var(--green);
+}
+
+.flow-arrow{
+  font-size:40px;
+  color:var(--muted);
+}
+
+/* Final Slide */
+.slide-final{
+  background:
+    radial-gradient(ellipse at center,rgba(66,209,122,.2)0%,transparent70%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  text-align:center;
+}
+
+.final-title{
+  font-size:clamp(48px,7vw,80px);
+  font-weight:900;
+  color:var(--green);
+  margin-bottom:30px;
+}
+
+.final-subtitle{
+  font-size:clamp(24px,3vw,36px);
+  color:var(--text);
+  max-width:800px;
+  line-height:1.5;
+}
+
+/* Navigation */
+.nav-hint{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:rgba(255,255,255,.1);
+  padding:10px 20px;
+  border-radius:20px;
+  font-size:14px;
+  color:var(--muted);
+  z-index:100;
+}
+
+.slide-counter{
+  position:fixed;
+  top:30px;
+  right:30px;
+  background:rgba(0,0,0,.5);
+  padding:10px 20px;
+  border-radius:20px;
+  font-size:14px;
+  color:var(--muted);
+  z-index:100;
+}
+
+@media(max-width:968px){
+  .slide-demo{flex-direction:column;}
+  .demo-visual{min-height:300px;width:100%;}
+  .slide-module{padding-left:40px;padding-right:40px;}
+}
+  </style>
+<base target="_blank">
+</head>
+<body>
+  <div class="nav-hint">Scroll or press ↓ to advance</div>
+  <div class="slide-counter" id="counter">1 / 12</div>
+
+  <!-- Slide 1: Title -->
+  <section class="slide slide-title">
+    <div class="course-title-big">FUNDED TRADER<br>SURVIVAL BLUEPRINT</div>
+    <div class="course-subtitle">5 modules. One goal: Keep you alive long enough to profit.</div>
+  </section>
+
+  <!-- Slide 2: Module 1 -->
+  <section class="slide slide-module">
+    <div class="module-header">
+      <div class="module-badge">MODULE 1</div>
+      <div class="module-title">The Funded Trader Mindset</div>
+    </div>
+    <div class="module-content">
+      <div class="module-desc">We dismantle the psychology of failure. Why 94% self-sabotage, and how to build the emotional resilience of professional traders.</div>
+      <ul class="lessons-list">
+        <li>The Identity Shift</li>
+        <li>Emotional Regulation Systems</li>
+        <li>The Professional vs Amateur Mindset</li>
+        <li>Building Your Trading Rituals</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 3: Module 2 Intro -->
+  <section class="slide slide-module">
+    <div class="module-header">
+      <div class="module-badge">MODULE 2</div>
+      <div class="module-title">Risk Identity</div>
+    </div>
+    <div class="module-content">
+      <div class="module-desc">Your mechanical risk system. The exact rules that separate funded traders from the blown accounts.</div>
+      <ul class="lessons-list">
+        <li>The $2,000 Rule That Saves Careers</li>
+        <li>The Pre-Market Risk Ritual</li>
+        <li>Position Sizing: The Math of Survival</li>
+        <li>When to Walk Away: The 3-Strike Rule</li>
+        <li>Risk Identity in Action</li>
+        <li>The Pre-Trade Checklist</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 4: Module 2 Demo - Calculator -->
+  <section class="slide slide-demo">
+    <div class="demo-text">
+      <div class="module-badge">MODULE 2</div>
+      <h2 style="font-size:36px;margin:20px 0;">Live Position Calculator</h2>
+      <p style="color:var(--muted);font-size:20px;line-height:1.6;">Know your exact risk before every trade. No guesswork. No emotion.</p>
+    </div>
+    <div class="demo-visual">
+      <div class="demo-label">Interactive Tool</div>
+      <div class="calc-mock">
+        <div class="calc-row">
+          <span class="calc-label">Account Balance</span>
+          <span class="calc-value">$50,500</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Stop Distance</span>
+          <span class="calc-value">10 points</span>
+        </div>
+        <div class="calc-row">
+          <span class="calc-label">Instrument</span>
+          <span class="calc-value">MNQ</span>
+        </div>
+        <div class="calc-result">
+          <div class="calc-result-label">Max Contracts (2% Risk)</div>
+          <div class="calc-result-value">5 contracts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Module 2 Demo - Checklist -->
+  <section class="slide slide-demo">
+    <div class="demo-text">
+      <div class="module-badge">MODULE 2</div>
+      <h2 style="font-size:36px;margin:20px 0;">The Pre-Trade Checklist</h2>
+      <p style="color:var(--muted);font-size:20px;line-height:1.6;">Six checkpoints. Fail any one, you don't trade. The 94% skip this step.</p>
+    </div>
+    <div class="demo-visual">
+      <div class="demo-label">Interactive Checklist</div>
+      <div class="checklist-mock">
+        <div class="check-item">
+          <div class="check-box">✓</div>
+          <span>Risk Calculated</span>
+        </div>
+        <div class="check-item">
+          <div class="check-box">✓</div>
+          <span>Plan Defined</span>
+        </div>
+        <div class="check-item">
+          <div class="check-box">✓</div>
+          <span>Mindset Check</span>
+        </div>
+        <div class="check-item danger">
+          <div class="check-box">✗</div>
+          <span>Revenge Trading Check</span>
+        </div>
+        <div style="background:rgba(255,92,92,.2);border:2px solid var(--danger);padding:15px;border-radius:8px;margin-top:20px;text-align:center;color:var(--danger);font-weight:700;">
+          🛑 STOP: Close Platform
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Module 3 -->
+  <section class="slide slide-module danger">
+    <div class="module-header">
+      <div class="module-badge">MODULE 3</div>
+      <div class="module-title">The Blow-Up</div>
+    </div>
+    <div class="module-content">
+      <div class="module-desc">The uncomfortable truth. We expose why traders destroy accounts—even with perfect risk management rules in front of them.</div>
+      <ul class="lessons-list">
+        <li>The 94% Problem: By The Numbers</li>
+        <li>The Revenge Spiral: 7 Phases</li>
+        <li>Psychology of Catastrophic Loss</li>
+        <li>Warning Signs You Can't See</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 7: Module 3 Demo - Spiral -->
+  <section class="slide slide-demo">
+    <div class="demo-text">
+      <div class="module-badge" style="background:var(--danger);">MODULE 3</div>
+      <h2 style="font-size:36px;margin:20px 0;color:var(--danger);">The Revenge Spiral</h2>
+      <p style="color:var(--muted);font-size:20px;line-height:1.6;">Click through each phase. See exactly how accounts die in 30 minutes.</p>
+    </div>
+    <div class="demo-visual" style="border-color:rgba(255,92,92,.3);">
+      <div class="demo-label" style="color:var(--danger);">Interactive Diagram</div>
+      <div class="spiral-mock">
+        <div class="spiral-node" style="top:0;left:50%;transform:translateX(-50%);">1</div>
+        <div class="spiral-node" style="top:15%;right:0;">2</div>
+        <div class="spiral-node" style="top:40%;right:10%;">3</div>
+        <div class="spiral-node active" style="top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;font-size:24px;">4</div>
+        <div class="spiral-node" style="bottom:30%;left:10%;">5</div>
+        <div class="spiral-node" style="bottom:15%;left:30%;">6</div>
+        <div class="spiral-node" style="bottom:0;right:20%;background:var(--danger);color:white;border-color:var(--danger);">7</div>
+      </div>
+      <div style="margin-top:30px;text-align:center;">
+        <div style="font-size:14px;color:var(--muted);margin-bottom:10px;">Phase 4: The Oversized Trade</div>
+        <div style="font-size:18px;color:var(--danger);font-weight:700;">The Point of No Return</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8: Module 4 -->
+  <section class="slide slide-module">
+    <div class="module-header">
+      <div class="module-badge">MODULE 4</div>
+      <div class="module-title">The Recovery Protocol</div>
+    </div>
+    <div class="module-content">
+      <div class="module-desc">Your emergency system. How to stop the spiral when emotions run hot, and the exact steps to rebuild after setbacks.</div>
+      <ul class="lessons-list">
+        <li>Recognizing Spiral Warning Signs</li>
+        <li>The Emergency Stop Procedure</li>
+        <li>Post-Loss Recovery Rituals</li>
+        <li>Rebuilding Confidence & Capital</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 9: Module 5 -->
+  <section class="slide slide-module">
+    <div class="module-header">
+      <div class="module-badge">MODULE 5</div>
+      <div class="module-title">The Funded Path</div>
+    </div>
+    <div class="module-content">
+      <div class="module-desc">Consistency systems. How to stack green days, optimize payouts, and turn a funded account into a long-term career.</div>
+      <ul class="lessons-list">
+        <li>The Consistency Equation</li>
+        <li>Stacking Green Days</li>
+        <li>Payout Optimization</li>
+        <li>From Funded to Career Trader</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Slide 10: Learning Journey -->
+  <section class="slide slide-progress">
+    <div class="progress-title">Your Transformation</div>
+    <div class="progress-flow">
+      <div class="flow-box">Awareness</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box active">Control</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box danger">Recognize</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box active">Recover</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box success">Master</div>
+    </div>
+  </section>
+
+  <!-- Slide 11: What You Get -->
+  <section class="slide" style="background:var(--bg1);text-align:center;">
+    <h2 style="font-size:clamp(32px,5vw,48px);margin-bottom:60px;">What You Get</h2>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:40px;max-width:800px;">
+      <div style="background:rgba(255,255,255,.05);padding:30px;border-radius:16px;">
+        <div style="font-size:48px;margin-bottom:15px;">📹</div>
+        <div style="font-size:20px;font-weight:700;">5 Core Modules</div>
+        <div style="color:var(--muted);margin-top:10px;">20+ video lessons</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);padding:30px;border-radius:16px;">
+        <div style="font-size:48px;margin-bottom:15px;">🧮</div>
+        <div style="font-size:20px;font-weight:700;">Interactive Tools</div>
+        <div style="color:var(--muted);margin-top:10px;">Calculators & checklists</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);padding:30px;border-radius:16px;">
+        <div style="font-size:48px;margin-bottom:15px;">📋</div>
+        <div style="font-size:20px;font-weight:700;">Downloadable Resources</div>
+        <div style="color:var(--muted);margin-top:10px;">PDFs & templates</div>
+      </div>
+      <div style="background:rgba(255,255,255,.05);padding:30px;border-radius:16px;">
+        <div style="font-size:48px;margin-bottom:15px;">🎯</div>
+        <div style="font-size:20px;font-weight:700;">Lifetime Access</div>
+        <div style="color:var(--muted);margin-top:10px;">All future updates</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 12: Final -->
+  <section class="slide slide-final">
+    <div class="final-title">JOIN THE 7%</div>
+    <div class="final-subtitle">Stop donating evaluation fees.<br>Start getting payouts.</div>
+  </section>
+
+  <script>
+    // Update counter
+    const slides=document.querySelectorAll('.slide');
+    const counter=document.getElementById('counter');
+
+    const observer=new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const index=Array.from(slides).indexOf(entry.target)+1;
+          counter.textContent=`${index} / ${slides.length}`;
+        }
+      });
+    },{threshold:.5});
+
+    slides.forEach(slide=>observer.observe(slide));
+
+    // Keyboard nav
+    document.addEventListener('keydown',(e)=>{
+      if(e.key==='ArrowDown'||e.key===' '){
+        window.scrollBy({top:window.innerHeight,behavior:'smooth'});
+      }
+      if(e.key==='ArrowUp'){
+        window.scrollBy({top:-window.innerHeight,behavior:'smooth'});
+      }
+    });
+  </script>
+</body>
+</html>
