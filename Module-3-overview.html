@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LW Trades — Module 3: The Blow-Up</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --stroke:rgba(255,255,255,.10);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --danger:#ff5c5c;
+  --danger2:#ff8888;
+  --danger-glow:rgba(255,92,92,.3);
+  --green:#42d17a;
+  --shadow: 0 24px 90px rgba(0,0,0,.55);
+  --radius:22px;
+  --maxw: 1100px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(1200px 800px at 15% 20%, rgba(255,92,92,.24), transparent 55%),
+    radial-gradient(900px 700px at 85% 25%, rgba(142,92,255,.14), transparent 55%),
+    radial-gradient(800px 650px at 45% 90%, rgba(255,92,92,.16), transparent 60%),
+    linear-gradient(180deg, #3a0f1a, var(--bg1) 55%, #07040a);
+  padding: 40px 20px;
+}
+
+.container{
+  width:min(var(--maxw),100%);
+  margin:0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.header{
+  background: rgba(0,0,0,.3);
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.module-badge{
+  font-size: 14px;
+  color: var(--danger);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.content{
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.kicker{ 
+  letter-spacing:.3em; 
+  text-transform:uppercase; 
+  font-size:12px; 
+  color: var(--danger);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+h1{
+  margin:0 0 20px 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, var(--danger) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.body-text{
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.stats-row{
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.stat-item{
+  text-align: center;
+}
+
+.stat-number{
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--danger);
+  line-height: 1;
+  text-shadow: 0 0 40px var(--danger-glow);
+}
+
+.stat-label{
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.lessons-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 650px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+.lesson-item{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 24px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  transition: all 0.3s;
+  border-left: 4px solid var(--danger);
+}
+
+.lesson-item:hover{
+  background: rgba(255,92,92,.08);
+  border-color: var(--danger);
+  transform: translateX(5px);
+}
+
+.lesson-item.incomplete{
+  opacity: 0.6;
+  border-left-color: var(--muted);
+}
+
+.lesson-item.incomplete:hover{
+  background: rgba(255,255,255,.05);
+  border-color: var(--stroke);
+}
+
+.lesson-number{
+  width: 40px;
+  height: 40px;
+  background: rgba(255,92,92,.2);
+  border: 2px solid var(--danger);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--danger);
+  flex-shrink: 0;
+}
+
+.lesson-item.incomplete .lesson-number{
+  background: rgba(255,255,255,.1);
+  border-color: var(--muted);
+  color: var(--muted);
+}
+
+.lesson-info{
+  flex: 1;
+}
+
+.lesson-title{
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lesson-desc{
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.status-badge{
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(255,92,92,.2);
+  color: var(--danger);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-badge.pending{
+  background: rgba(255,255,255,.1);
+  color: var(--muted);
+}
+
+.warning-box{
+  background: linear-gradient(145deg, rgba(255,92,92,.1), rgba(255,92,92,.05));
+  border: 1px solid rgba(255,92,92,.3);
+  border-radius: 16px;
+  padding: 25px;
+  margin: 40px auto;
+  max-width: 650px;
+  text-align: left;
+}
+
+.warning-box h3{
+  color: var(--danger);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warning-box p{
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.start-btn{
+  display: inline-block;
+  margin-top: 20px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--danger), var(--danger2));
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.start-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--danger-glow);
+}
+
+.footer{
+  background: rgba(0,0,0,.3);
+  padding: 20px 40px;
+  border-top: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-links{
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a{
+  color: var(--danger);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-links a:hover{
+  text-decoration: underline;
+}
+
+@media (max-width: 768px){
+  .content{ padding: 40px 20px; }
+  .header{ padding: 20px 24px; }
+  .stats-row{ gap: 30px; }
+  .stat-number{ font-size: 3rem; }
+}
+  </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="module-badge">Module 3 of 5</div>
+      <div style="color: var(--muted); font-size: 0.9rem;">Funded Trader Survival Blueprint</div>
+    </div>
+
+    <div class="content">
+      <div class="kicker">Welcome to</div>
+      <h1>THE BLOW-UP</h1>
+      <p class="body-text">
+        The uncomfortable truth. We expose why traders destroy accounts—even with perfect risk management rules in front of them.
+      </p>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-number">94%</div>
+          <div class="stat-label">Fail First<br>Challenge</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">6%</div>
+          <div class="stat-label">Pass First<br>Challenge</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">7%</div>
+          <div class="stat-label">Ever Receive<br>Payouts*</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: -30px 0 40px; color: var(--muted); font-size: 0.85rem; font-style: italic;">
+        *Includes traders who failed first attempts but passed later
+      </div>
+
+      <div class="lessons-list">
+        <div class="lesson-item">
+          <div class="lesson-number">1</div>
+          <div class="lesson-info">
+            <div class="lesson-title">
+              The 94% Problem: By The Numbers
+              <span class="status-badge">Ready</span>
+            </div>
+            <div class="lesson-desc">Why most traders never make it past their first prop firm challenge</div>
+          </div>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-number">2</div>
+          <div class="lesson-info">
+            <div class="lesson-title">
+              The Revenge Spiral: 7 Phases
+              <span class="status-badge">Ready</span>
+            </div>
+            <div class="lesson-desc">How one emotional trade triggers a cascade of catastrophic decisions</div>
+          </div>
+        </div>
+        <div class="lesson-item incomplete">
+          <div class="lesson-number">3</div>
+          <div class="lesson-info">
+            <div class="lesson-title">
+              Psychology of Catastrophic Loss
+              <span class="status-badge pending">Coming Soon</span>
+            </div>
+            <div class="lesson-desc">What happens in your brain when you watch your account bleed</div>
+          </div>
+        </div>
+        <div class="lesson-item incomplete">
+          <div class="lesson-number">4</div>
+          <div class="lesson-info">
+            <div class="lesson-title">
+              Warning Signs You Can't See
+              <span class="status-badge pending">Coming Soon</span>
+            </div>
+            <div class="lesson-desc">The invisible triggers that push you toward the edge</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <h3>🚨 Warning</h3>
+        <p>This module contains uncomfortable truths. We're exposing exactly how traders spiral into blowing accounts—even with the checklist right in front of them. If you're not ready to face your own psychology, skip to Module 4.</p>
+      </div>
+
+      <button class="start-btn" onclick="location.href='3.1.html'">Start Lesson 3.1 →</button>
+    </div>
+
+    <div class="footer">
+      <div>LW Trades</div>
+      <div class="nav-links">
+        <a href="2.6.html">← Module 2</a>
+        <a href="3.1.html">Next →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
