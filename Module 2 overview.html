@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LW Trades — Module 2: Risk Identity</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --stroke:rgba(255,255,255,.10);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --accent-glow:rgba(142,92,255,.3);
+  --green:#42d17a;
+  --danger:#ff5c5c;
+  --shadow: 0 24px 90px rgba(0,0,0,.55);
+  --radius:22px;
+  --maxw: 1100px;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(1200px 800px at 15% 20%, rgba(142,92,255,.24), transparent 55%),
+    radial-gradient(900px 700px at 85% 25%, rgba(66,209,122,.14), transparent 55%),
+    radial-gradient(800px 650px at 45% 90%, rgba(180,123,255,.16), transparent 60%),
+    linear-gradient(180deg, var(--bg2), var(--bg1) 55%, #07040a);
+  padding: 40px 20px;
+}
+
+.container{
+  width:min(var(--maxw),100%);
+  margin:0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--stroke);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.header{
+  background: rgba(0,0,0,.3);
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.module-badge{
+  font-size: 14px;
+  color: var(--accent2);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.content{
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.kicker{ 
+  letter-spacing:.3em; 
+  text-transform:uppercase; 
+  font-size:12px; 
+  color: var(--accent2);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+h1{
+  margin:0 0 20px 0;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.body-text{
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.lessons-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.lesson-item{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.lesson-item:hover{
+  background: rgba(255,255,255,.06);
+  border-color: var(--accent);
+}
+
+.lesson-item.bridge-item{
+  border-color: rgba(255,92,92,.3);
+  background: linear-gradient(145deg, rgba(255,92,92,.05), rgba(255,255,255,.02));
+}
+
+.lesson-item.bridge-item:hover{
+  border-color: var(--danger);
+  background: rgba(255,92,92,.08);
+}
+
+.lesson-number{
+  width: 40px;
+  height: 40px;
+  background: rgba(142,92,255,.2);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--accent2);
+  flex-shrink: 0;
+}
+
+.lesson-item.bridge-item .lesson-number{
+  background: rgba(255,92,92,.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.lesson-info{
+  flex: 1;
+}
+
+.lesson-title{
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.lesson-desc{
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.bridge-badge{
+  display: inline-block;
+  background: rgba(255,92,92,.2);
+  color: var(--danger);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.start-btn{
+  display: inline-block;
+  margin-top: 40px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.start-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.module-preview{
+  background: linear-gradient(145deg, rgba(255,92,92,.1), rgba(255,92,92,.05));
+  border: 1px solid rgba(255,92,92,.3);
+  border-radius: 16px;
+  padding: 25px;
+  margin-top: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.module-preview h3{
+  color: var(--danger);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.module-preview p{
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.footer{
+  background: rgba(0,0,0,.3);
+  padding: 20px 40px;
+  border-top: 1px solid var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nav-links{
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a{
+  color: var(--accent2);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-links a:hover{
+  text-decoration: underline;
+}
+
+@media (max-width: 768px){
+  .content{ padding: 40px 20px; }
+  .header{ padding: 20px 24px; }
+  .footer{ flex-direction: column; gap: 12px; text-align: center; }
+}
+  </style>
+<base target="_blank">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="module-badge">Module 2 of 5</div>
+      <div style="color: var(--muted); font-size: 0.9rem;">Funded Trader Survival Blueprint</div>
+    </div>
+
+    <div class="content">
+      <div class="kicker">Welcome to</div>
+      <h1>Risk Identity</h1>
+      <p class="body-text">
+        No More Mood Risk — Turn Uncertainty into Your Trading Edge. The mechanical risk system that removes emotion from every trade decision.
+      </p>
+
+      <div class="lessons-list">
+        <div class="lesson-item">
+          <div class="lesson-number">1</div>
+          <div class="lesson-info">
+            <div class="lesson-title">The $2,000 Rule That Saves Careers</div>
+            <div class="lesson-desc">Your account dies at $48,000. Know your line.</div>
+          </div>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-number">2</div>
+          <div class="lesson-info">
+            <div class="lesson-title">The Pre-Market Risk Ritual</div>
+            <div class="lesson-desc">5 minutes that remove decision fatigue</div>
+          </div>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-number">3</div>
+          <div class="lesson-info">
+            <div class="lesson-title">Position Sizing: The Math of Survival</div>
+            <div class="lesson-desc">Why winning strategies still fail</div>
+          </div>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-number">4</div>
+          <div class="lesson-info">
+            <div class="lesson-title">When to Walk Away: The 3-Strike Rule</div>
+            <div class="lesson-desc">Know when to close the platform</div>
+          </div>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-number">5</div>
+          <div class="lesson-info">
+            <div class="lesson-title">Risk Identity in Action</div>
+            <div class="lesson-desc">Live examples: The good and the lesson</div>
+          </div>
+        </div>
+        <div class="lesson-item bridge-item">
+          <div class="lesson-number">6</div>
+          <div class="lesson-info">
+            <div class="lesson-title">The Pre-Trade Checklist <span class="bridge-badge">Bridge to Module 3</span></div>
+            <div class="lesson-desc">Your final defense before the markets open — and why 94% skip this step</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-preview">
+        <h3>🚨 Coming Up Next: Module 3 — The Blow-Up</h3>
+        <p>After Lesson 2.6, we expose the psychology of catastrophic losses. You'll learn why traders blow accounts despite "knowing better," and how to recognize the revenge spiral before it destroys you.</p>
+      </div>
+
+      <button class="start-btn" onclick="location.href='2.1.html'">Start Lesson 2.1 →</button>
+    </div>
+
+    <div class="footer">
+      <div>LW Trades</div>
+      <div class="nav-links">
+        <a href="1.7.html">← Previous</a>
+        <a href="2.1.html">Next →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
