@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 0: The $12K Lesson | Funded Trader Survival Blueprint</title>
+  <style>
+:root{
+  --bg1:#120818;
+  --bg2:#2b0f3a;
+  --accent:#8e5cff;
+  --accent2:#b47bff;
+  --danger:#ff5c5c;
+  --green:#42d17a;
+  --gold:#ffd700;
+  --text:#ffffff;
+  --muted:#888888;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--bg1);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+.slide{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  scroll-snap-align:start;
+  position:relative;
+  padding:60px;
+}
+
+/* Lesson 0 Title Slide */
+.slide-title{
+  background:
+    radial-gradient(ellipse at center,rgba(255,215,0,.2)0%,transparent70%),
+    linear-gradient(180deg,var(--bg2),var(--bg1));
+  text-align:center;
+}
+
+.lesson-badge{
+  background:var(--gold);
+  color:var(--bg1);
+  padding:12px 30px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:3px;
+  margin-bottom:30px;
+  text-transform:uppercase;
+}
+
+.story-title{
+  font-size:clamp(48px,8vw,80px);
+  font-weight:900;
+  background:linear-gradient(135deg,var(--gold),#ffed4e);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:20px;
+  line-height:1.1;
+}
+
+.story-subtitle{
+  font-size:clamp(20px,3vw,28px);
+  color:var(--muted);
+  max-width:700px;
+  line-height:1.5;
+}
+
+/* Story Content Slides */
+.slide-story{
+  background:var(--bg1);
+  text-align:center;
+}
+
+.story-quote{
+  font-size:clamp(28px,4vw,48px);
+  font-weight:700;
+  line-height:1.4;
+  max-width:900px;
+  color:var(--text);
+}
+
+.story-quote .highlight{
+  color:var(--gold);
+}
+
+.story-quote .danger{
+  color:var(--danger);
+}
+
+.story-quote .green{
+  color:var(--green);
+}
+
+/* Timeline Slide */
+.slide-timeline{
+  background:var(--bg1);
+}
+
+.timeline-container{
+  max-width:1000px;
+  width:100%;
+}
+
+.timeline-title{
+  font-size:clamp(32px,5vw,48px);
+  font-weight:800;
+  margin-bottom:60px;
+  text-align:center;
+}
+
+.timeline{
+  position:relative;
+  padding-left:60px;
+}
+
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:20px;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:linear-gradient(180deg,var(--danger),var(--gold),var(--green));
+  border-radius:2px;
+}
+
+.timeline-item{
+  position:relative;
+  margin-bottom:50px;
+  text-align:left;
+}
+
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-46px;
+  top:5px;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--bg1);
+  border:4px solid var(--danger);
+}
+
+.timeline-item.win::before{
+  border-color:var(--green);
+}
+
+.timeline-item.lesson::before{
+  border-color:var(--gold);
+}
+
+.timeline-date{
+  font-size:14px;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.timeline-event{
+  font-size:clamp(20px,2.5vw,28px);
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.timeline-detail{
+  font-size:18px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* The Numbers Slide */
+.slide-numbers{
+  background:
+    radial-gradient(circle at 70% 30%,rgba(255,215,0,.15)0%,transparent50%),
+    var(--bg1);
+}
+
+.numbers-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:40px;
+  max-width:1000px;
+  width:100%;
+}
+
+.number-box{
+  text-align:center;
+  padding:40px;
+  background:rgba(255,255,255,.03);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.number-value{
+  font-size:clamp(48px,6vw,72px);
+  font-weight:900;
+  color:var(--gold);
+  line-height:1;
+  margin-bottom:15px;
+}
+
+.number-box.negative .number-value{
+  color:var(--danger);
+}
+
+.number-box.positive .number-value{
+  color:var(--green);
+}
+
+.number-label{
+  font-size:18px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+/* The Breakthrough Slide */
+.slide-breakthrough{
+  background:
+    radial-gradient(ellipse at center,rgba(66,209,122,.2)0%,transparent70%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  text-align:center;
+}
+
+.breakthrough-title{
+  font-size:clamp(36px,5vw,56px);
+  font-weight:800;
+  color:var(--green);
+  margin-bottom:40px;
+}
+
+.breakthrough-list{
+  list-style:none;
+  max-width:700px;
+  text-align:left;
+}
+
+.breakthrough-list li{
+  padding:20px 0;
+  padding-left:50px;
+  position:relative;
+  font-size:clamp(20px,2.5vw,28px);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.breakthrough-list li::before{
+  content: "✓";
+  position:absolute;
+  left:0;
+  color:var(--green);
+  font-weight:900;
+  font-size:28px;
+}
+
+/* The Promise Slide */
+.slide-promise{
+  background:var(--bg1);
+  text-align:center;
+}
+
+.promise-box{
+  max-width:800px;
+  padding:60px;
+  background:rgba(142,92,255,.1);
+  border:2px solid var(--accent);
+  border-radius:24px;
+}
+
+.promise-text{
+  font-size:clamp(24px,3vw,36px);
+  font-weight:600;
+  line-height:1.6;
+  color:var(--text);
+}
+
+.promise-text strong{
+  color:var(--accent2);
+}
+
+/* CTA Slide */
+.slide-cta{
+  background:
+    radial-gradient(ellipse at center,rgba(142,92,255,.3)0%,transparent70%),
+    linear-gradient(180deg,var(--bg2),var(--bg1));
+  text-align:center;
+}
+
+.cta-title{
+  font-size:clamp(40px,6vw,64px);
+  font-weight:900;
+  margin-bottom:30px;
+}
+
+.cta-subtitle{
+  font-size:clamp(20px,2.5vw,28px);
+  color:var(--muted);
+  max-width:600px;
+  line-height:1.6;
+  margin-bottom:40px;
+}
+
+/* Navigation */
+.nav-hint{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:rgba(255,255,255,.1);
+  padding:10px 20px;
+  border-radius:20px;
+  font-size:14px;
+  color:var(--muted);
+  z-index:100;
+}
+
+.slide-counter{
+  position:fixed;
+  top:30px;
+  right:30px;
+  background:rgba(0,0,0,.5);
+  padding:10px 20px;
+  border-radius:20px;
+  font-size:14px;
+  color:var(--muted);
+  z-index:100;
+}
+
+@media(max-width:768px){
+  .numbers-grid{grid-template-columns:1fr;}
+  .slide{padding:40px;}
+  .promise-box{padding:30px;}
+}
+  </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body>
+  <div class="nav-hint">Scroll or press ↓ to advance</div>
+  <div class="slide-counter" id="counter">1 / 8</div>
+
+  <!-- Slide 1: Title -->
+  <section class="slide slide-title">
+    <div class="lesson-badge">Lesson 0</div>
+    <div class="story-title">THE $12K LESSON</div>
+    <div class="story-subtitle">How losing everything taught me the psychology of survival—and led to my first funded payout</div>
+  </section>
+
+  <!-- Slide 2: The Hook -->
+  <section class="slide slide-story">
+    <div class="story-quote">
+      "I blew <span class="danger">$12,000</span> in evaluation fees<br>before I made a single dollar trading.<br><br>
+      <span class="highlight">This course is everything I wish someone had told me<br>before I started.</span>"
+    </div>
+  </section>
+
+  <!-- Slide 3: The Timeline -->
+  <section class="slide slide-timeline">
+    <div class="timeline-container">
+      <div class="timeline-title">My Journey (The Hard Way)</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">MONTH 1-3</div>
+          <div class="timeline-event">The "I Got This" Phase</div>
+          <div class="timeline-detail">Bought 3 evaluations. Blew them all in 2 weeks. "Just bad luck."</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">MONTH 4-6</div>
+          <div class="timeline-event">The Strategy Chase</div>
+          <div class="timeline-detail">Bought more courses, more indicators. Still blowing accounts.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">MONTH 7</div>
+          <div class="timeline-event">The Breaking Point</div>
+          <div class="timeline-detail">$12K gone. Family asking questions. Considered quitting.</div>
+        </div>
+        <div class="timeline-item lesson">
+          <div class="timeline-date">THE TURNING POINT</div>
+          <div class="timeline-event">The Psychology Pivot</div>
+          <div class="timeline-detail">Stopped chasing setups. Started studying myself.</div>
+        </div>
+        <div class="timeline-item win">
+          <div class="timeline-date">MONTH 6-8</div>
+          <div class="timeline-event">First Consistent Month → First Payout</div>
+          <div class="timeline-detail">Same chart reading. Different emotional infrastructure. Finally profitable.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 4: The Numbers -->
+  <section class="slide slide-numbers">
+    <div class="numbers-grid">
+      <div class="number-box negative">
+        <div class="number-value">$12K</div>
+        <div class="number-label">Lost in Evaluations</div>
+      </div>
+      <div class="number-box">
+        <div class="number-value">30+</div>
+        <div class="number-label">Blown Accounts</div>
+      </div>
+      <div class="number-box positive">
+        <div class="number-value">1</div>
+        <div class="number-label">System That Worked</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: The Realization -->
+  <section class="slide slide-story">
+    <div class="story-quote">
+      "It wasn't my strategy.<br>I knew FVGs, ICT, support and resistance.<br><br>
+      <span class="danger">It was my emotions.</span><br><br>
+      I had the knowledge.<br>I lacked the <span class="highlight">discipline and emotional control</span>."
+    </div>
+  </section>
+
+  <!-- Slide 6: The Breakthrough -->
+  <section class="slide slide-breakthrough">
+    <div class="breakthrough-title">What Changed: My Pre-Trade Ritual</div>
+    <ul class="breakthrough-list">
+      <li>Built a pre-trade risk ritual (not just rules, a ritual)</li>
+      <li>Created emergency stop protocols for emotional spirals</li>
+      <li>Developed the "3-Strike Rule" for walking away</li>
+      <li>Stopped trading my P&L and started trading my plan</li>
+      <li>Learned that survival is a skill, not a personality trait</li>
+    </ul>
+  </section>
+
+  <!-- Slide 7: The Promise -->
+  <section class="slide slide-promise">
+    <div class="promise-box">
+      <div class="promise-text">
+        "If I had this course in Huntsville,<br>I would have saved an estimated <strong>$11,000</strong> and<br>avoided the darkest months of my life.<br><br>
+        That's why I built it."
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8: Transition to Course -->
+  <section class="slide slide-cta">
+    <div class="cta-title">Your Turn</div>
+    <div class="cta-subtitle">
+      You don't need to lose $12K to learn these lessons.<br>
+      You just need to commit to the system.<br><br>
+      Let's begin.
+    </div>
+    <div style="font-size:18px;color:var(--muted);margin-top:40px;">
+      ↓ Continue to Module 1: The Funded Trader Mindset ↓
+    </div>
+  </section>
+
+  <script>
+    // Update counter
+    const slides=document.querySelectorAll('.slide');
+    const counter=document.getElementById('counter');
+
+    const observer=new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const index=Array.from(slides).indexOf(entry.target)+1;
+          counter.textContent=`${index} / ${slides.length}`;
+        }
+      });
+    },{threshold:.5});
+
+    slides.forEach(slide=>observer.observe(slide));
+
+    // Keyboard nav
+    document.addEventListener('keydown',(e)=>{
+      if(e.key==='ArrowDown'||e.key===' '){
+        window.scrollBy({top:window.innerHeight,behavior:'smooth'});
+      }
+      if(e.key==='ArrowUp'){
+        window.scrollBy({top:-window.innerHeight,behavior:'smooth'});
+      }
+    });
+  </script>
+</body>
+</html>
